@@ -1,7 +1,7 @@
 THIS_MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 BUILD_TOP_DIR := $(abspath $(dir ${THIS_MAKEFILE_PATH}))
 INSTALL_PREFIX := ${BUILD_TOP_DIR}/install
-VERSION_STRING := 3.8
+VERSION_STRING := 3.7
 
 all:
 	make depends
@@ -14,18 +14,18 @@ depends:
           tar -xzf cmake.tar.gz && cp -r cmake-3.4.1-Linux-x86_64/* /usr/
 
 source:
-	git clone http://llvm.org/git/llvm.git llvm
-	llvm/tools && git clone http://llvm.org/git/clang.git
-	llvm/projects && git clone http://llvm.org/git/compiler-rt.git
-	llvm/projects && git clone http://llvm.org/git/openmp.git
-	llvm/projects && git clone http://llvm.org/git/libcxx.git && git clone http://llvm.org/git/libcxxabi.git
+	git clone --depth=1 http://llvm.org/git/llvm.git llvm
+	cd llvm/tools && git clone --depth=1 http://llvm.org/git/clang.git
+	cd llvm/projects && git clone --depth=1 http://llvm.org/git/compiler-rt.git
+	cd llvm/projects && git clone --depth=1 http://llvm.org/git/openmp.git
+	cd llvm/projects && git clone --depth=1 http://llvm.org/git/libcxx.git && git clone http://llvm.org/git/libcxxabi.git
 	tar -czf llvm-clang-${VERSION_STRING}.tar.gz llvm
 
 rpm:
-	rpmbuild -bb --define "_topdir ${BUILD_TOP_DIR}" --define "version ${VERSION_STRING}" --define "buildroot ${INSTALL_PREFIX}" ${BUILD_TOP_DIR}/llvm-clang-rpm.spec
+	rpmbuild -bb --define "_topdir ${BUILD_TOP_DIR}" --define "version ${VERSION_STRING}" --define "buildroot ${INSTALL_PREFIX}" ${BUILD_TOP_DIR}/llvm-clang.spec
 
 build-llvm:
-	mkdir -p build && cd build && cmake  -DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX}/usr -DCMAKE_BUILD_TYPE=Release && make
+	mkdir -p build && cd build && cmake  -DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX}/usr -DCMAKE_BUILD_TYPE=Release ${BUILD_TOP_DIR}/llvm && make -j4
 
 install-llvm:
 	cd build && make install

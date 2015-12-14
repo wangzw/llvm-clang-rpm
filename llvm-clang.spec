@@ -31,13 +31,13 @@ mirror sets of programming tools as well as libraries with equivalent
 functionality.
 
 %build
-%{__make} build-llvm
+cd ${_topdir} && %{__make} build-llvm
 
 %install
-%{__make} install-llvm
+cd ${_topdir} && %{__make} install-llvm
 
 %clean
-%{__make} clean
+cd ${_topdir} && %{__make} clean
 
 %files
 %defattr(-,root,root,-)
