@@ -2,6 +2,7 @@ THIS_MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 BUILD_TOP_DIR := $(abspath $(dir ${THIS_MAKEFILE_PATH}))
 INSTALL_PREFIX := ${BUILD_TOP_DIR}/install
 VERSION_STRING := 3.7
+BRANCH=release_37
 
 all:
 	make depends
@@ -15,10 +16,10 @@ depends:
 
 source:
 	git clone --depth=1 http://llvm.org/git/llvm.git llvm
-	cd llvm/tools && git clone --depth=1 http://llvm.org/git/clang.git
-	cd llvm/projects && git clone --depth=1 http://llvm.org/git/compiler-rt.git
-	cd llvm/projects && git clone --depth=1 http://llvm.org/git/openmp.git
-	cd llvm/projects && git clone --depth=1 http://llvm.org/git/libcxx.git && git clone http://llvm.org/git/libcxxabi.git
+	cd llvm/tools && git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/clang.git
+	cd llvm/projects && git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/compiler-rt.git
+	cd llvm/projects && git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/openmp.git
+	cd llvm/projects && git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/libcxx.git && git clone http://llvm.org/git/libcxxabi.git
 	tar -czf llvm-clang-${VERSION_STRING}.tar.gz llvm
 
 rpm:
@@ -29,6 +30,7 @@ build-llvm:
 
 install-llvm:
 	cd build && make install
+	sed -i 's|${INSTALL_PREFIX}||g' ${INSTALL_PREFIX}/usr/include/llvm/Config/llvm-config.h
 
 clean:
 	rm -rf build
