@@ -41,14 +41,17 @@ cd %{_topdir} && %{__make} clean
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}/lib/lib*.so.*
+%{_prefix}/bin/*
+%{_prefix}/usr/lib/clang/*
+%{_prefix}/usr/share/doc/*
+%{_prefix}/usr/share/man/*
+%{_prefix}/usr/share/llvm
 
 %files devel
 %defattr(-,root,root,-)
-%{_prefix}/lib/lib*.so
-%{_prefix}/lib/*.a
-%{_prefix}/lib/pkgconfig/*
 %{_prefix}/include/*
+%{_prefix}/lib/*
+%{_prefix}/usr/share/llvm/*
 
 %post
 /sbin/ldconfig

@@ -29,4 +29,5 @@
 
 # generated files
 .project
+.cproject
 
