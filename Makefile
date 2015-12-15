@@ -10,12 +10,12 @@ all:
 	make rpm
 
 depends:
-	yum install -y make curl tar gcc gcc-c++ python m4 autoconf automake libtool zlib-devel libstdc++-devel git rpm-build
+	yum install -y make curl tar gcc gcc-c++ python m4 autoconf automake libtool zlib-devel libstdc++-devel git rpm-build libxml2-devel libffi-devel
 	cd /tmp && curl -L "https://cmake.org/files/v3.4/cmake-3.4.1-Linux-x86_64.tar.gz" -o cmake.tar.gz && \
           tar -xzf cmake.tar.gz && cp -r cmake-3.4.1-Linux-x86_64/* /usr/
 
 source:
-	git clone --depth=1 http://llvm.org/git/llvm.git llvm
+	git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/llvm.git llvm
 	cd llvm/tools && git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/clang.git
 	cd llvm/projects && git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/compiler-rt.git
 	cd llvm/projects && git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/openmp.git
