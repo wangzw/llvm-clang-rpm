@@ -26,11 +26,14 @@ rpm:
 	rpmbuild -bb --define "_topdir ${BUILD_TOP_DIR}" --define "version ${VERSION_STRING}" --define "buildroot ${INSTALL_PREFIX}" ${BUILD_TOP_DIR}/llvm-clang.spec
 
 build-llvm:
-	mkdir -p build && cd build && cmake  -DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX}/usr -DCMAKE_BUILD_TYPE=Release ${BUILD_TOP_DIR}/llvm && make -j4
+	mkdir -p build 
+	cd build && cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX}/usr -DCMAKE_BUILD_TYPE=Release ${BUILD_TOP_DIR}/llvm
+	cd build && sed -i 's|${INSTALL_PREFIX}||g' include/llvm/Config/llvm-config.h
+	cd build && sed -i 's|${INSTALL_PREFIX}||g' include/llvm/Config/config.h
+	cd build && make -j4
 
 install-llvm:
 	cd build && make install
-	sed -i 's|${INSTALL_PREFIX}||g' ${INSTALL_PREFIX}/usr/include/llvm/Config/llvm-config.h
 
 clean:
 	rm -rf build
