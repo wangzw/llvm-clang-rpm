@@ -11,6 +11,9 @@ Source0: llvm-clang-%{version}.tar.gz
 License: NCSA
 BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
+BuildRequires: gcc-c++
+Requires: glibc-devel glibc-headers kernel-headers libstdc++-devel libgcc glibc glibc-common gcc gcc-c++
+
 %description
 LLVM is a compiler infrastructure designed for compile-time,
 link-time, runtime, and idle-time optimization of programs from
