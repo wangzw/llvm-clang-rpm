@@ -20,7 +20,6 @@ source:
 	cd llvm/tools && git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/clang.git
 	cd llvm/projects && git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/compiler-rt.git
 	cd llvm/projects && git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/openmp.git
-	cd llvm/projects && git clone --depth=1 --single-branch --branch=${BRANCH} http://llvm.org/git/libcxx.git && git clone http://llvm.org/git/libcxxabi.git
 	tar -czf llvm-clang-${VERSION_STRING}.tar.gz llvm
 
 rpm:
