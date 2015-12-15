@@ -2,7 +2,8 @@ THIS_MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 BUILD_TOP_DIR := $(abspath $(dir ${THIS_MAKEFILE_PATH}))
 INSTALL_PREFIX := ${BUILD_TOP_DIR}/install
 VERSION_STRING := 3.7
-BRANCH=release_37
+BRANCH := release_37
+BINTRAY_KEY :=
 
 all:
 	make depends
@@ -34,6 +35,10 @@ build-llvm:
 
 install-llvm:
 	cd build && make install
+
+publish:
+	curl -H "X-Bintray-Publish: 1" -H "X-Bintray-Override: 1" -T ${BUILD_TOP_DIR}/RPMS/x86_64/llvm-clang-${VERSION_STRING}-1.el7.centos.x86_64.rpm -uwangzw:${BINTRAY_KEY} \
+      https://api.bintray.com/content/wangzw/rpm/llvm-clang/${VERSION_STRING}/centos7/x86_64/llvm-clang-${VERSION_STRING}-1.el7.centos.x86_64.rpm
 
 clean:
 	rm -rf build
