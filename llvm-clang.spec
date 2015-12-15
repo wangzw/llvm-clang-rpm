@@ -29,10 +29,10 @@ cd %{_topdir} && %{__make} clean
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}/usr/bin/*
-%{_prefix}/usr/include/*
-%{_prefix}/usr/lib/*
-%{_prefix}/usr/share/*
+%{_prefix}/bin/*
+%{_prefix}/include/*
+%{_prefix}/lib/*
+%{_prefix}/share/*
 
 %post
 /sbin/ldconfig
