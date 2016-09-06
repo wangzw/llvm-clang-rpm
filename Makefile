@@ -6,7 +6,7 @@ BRANCH := release_39
 BINTRAY_KEY :=
 
 all:
-	#make depends
+	make depends
 	make source
 	make rpm
 
