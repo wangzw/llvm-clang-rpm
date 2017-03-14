@@ -1,9 +1,10 @@
 THIS_MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 BUILD_TOP_DIR := $(abspath $(dir ${THIS_MAKEFILE_PATH}))
 INSTALL_PREFIX := ${BUILD_TOP_DIR}/install
-VERSION_STRING := 3.7
-BRANCH := release_37
+VERSION_STRING := 3.9
+BRANCH := release_39
 BINTRAY_KEY :=
+#ASSERTIONS := -DLLVM_ENABLE_ASSERTIONS=TRUE
 
 all:
 	make depends
@@ -27,7 +28,7 @@ rpm:
 
 build-llvm:
 	mkdir -p build 
-	cd build && cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX}/usr -DCMAKE_BUILD_TYPE=Release ${BUILD_TOP_DIR}/llvm
+	cd build && cmake $(ASSERTIONS) -DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX}/usr -DCMAKE_BUILD_TYPE=Release ${BUILD_TOP_DIR}/llvm
 	cd build && sed -i 's|${INSTALL_PREFIX}||g' include/llvm/Config/llvm-config.h
 	cd build && sed -i 's|${INSTALL_PREFIX}||g' include/llvm/Config/config.h
 	cd build && make -j4
